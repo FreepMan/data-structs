@@ -1,6 +1,7 @@
 #ifndef FREEPMAN_TEMPLSTACK_CPP
 #define FREEPMAN_TEMPLSTACK_CPP
 #include "stack.h"
+#include <stdexcept>
 
 template<typename T>
 Stack<T>::Stack(T val){
@@ -19,7 +20,7 @@ Stack<T> &Stack<T>::push(T val){
 template<typename T>
 T Stack<T>::pop(){
     if(head == nullptr){
-        throw std::out_of_range("Stack is empty");
+        throw std::out_of_range("Can not to pop an empty stack!");
     }
     Node *nextEl = head->prev;
     T toReturnData = head->data;
@@ -30,12 +31,18 @@ T Stack<T>::pop(){
 
 template<typename T>
 T Stack<T>::top(){
+    if(head == nullptr){
+        throw std::out_of_range("There is no data!");
+    }
     return head->data;
 }
 
 template<typename T>
 T Stack<T>::bot(){
-    Node *currentEl = Head;
+    if(head == nullptr){
+        throw std::out_of_range("There is no data!");
+    }
+    Node *currentEl = head;
     while(currentEl != nullptr){
         currentEl = currentEl->prev;
     }

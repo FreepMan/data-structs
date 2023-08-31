@@ -7,7 +7,7 @@ private:
     struct Node{
         T data;
         Node* prev;
-    }
+    };
     Node head;
 public:
     Stack() {};
