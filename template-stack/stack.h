@@ -61,7 +61,7 @@ T Stack<T>::bot(){
         throw std::out_of_range("There is no data!");
     }
     Node *currentEl = head;
-    while(currentEl != nullptr){
+    while(currentEl->prev != nullptr){
         currentEl = currentEl->prev;
     }
     return currentEl->data;

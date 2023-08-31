@@ -3,7 +3,7 @@
 
 int main(){
     Stack<int> a(2);
-    std::cout<<a.top()<<a.pop();
+    std::cout<<a.top()<<a.bot()<<a.pop();
     return 0;
 }
 
