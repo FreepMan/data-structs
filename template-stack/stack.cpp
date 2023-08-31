@@ -1,7 +1,12 @@
+// not in use
+// to delete
+
 #ifndef FREEPMAN_TEMPLSTACK_CPP
 #define FREEPMAN_TEMPLSTACK_CPP
 #include "stack.h"
 #include <stdexcept>
+
+
 
 template<typename T>
 Stack<T>::Stack(T val){
@@ -20,7 +25,7 @@ Stack<T> &Stack<T>::push(T val){
 template<typename T>
 T Stack<T>::pop(){
     if(head == nullptr){
-        throw std::out_of_range("Can not to pop an empty stack!");
+        throw std::out_of_range("Can not pop an empty stack!");
     }
     Node *nextEl = head->prev;
     T toReturnData = head->data;
