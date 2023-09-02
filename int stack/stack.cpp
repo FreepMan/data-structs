@@ -1,6 +1,7 @@
 #ifndef FREEPMAN_STACK_CPP
 #define FREEPMAN_STACK_CPP
 
+#include <stdexcept>
 #include "stack.h"
 
 Stack &Stack::push(int val){
@@ -12,14 +13,12 @@ Stack &Stack::push(int val){
 }
 
 int Stack::pop(){
-    if(head == NULL){
-        // Learn throw, catch, try to cont
-        return -1;
-    }
+    if(head == NULL)
+        std::out_of_range("Can't pop empty stack!");
     int returnValue = head->value;
-    Node *temp = head;
-    head = head->prev;
-    delete(temp);
+    Node *nextEl = head->prev;
+    delete head;
+    head = nextEl;
     return returnValue;
 }
 
@@ -30,9 +29,13 @@ Stack::Stack(int val){
 }
 
 int Stack::top(){
+    if(head == NULL)
+        std::out_of_range("Stack is empty.");
     return head->value;
 }
 int Stack::bot(){
+    if(head == NULL)
+        std::out_of_range("Stack is empty.");
     Node *temp = head;
     while(temp->prev != NULL) temp = temp->prev;
     return temp->value;
