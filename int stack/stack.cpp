@@ -16,9 +16,9 @@ int Stack::pop(){
     if(head == NULL)
         std::out_of_range("Can't pop empty stack!");
     int returnValue = head->value;
-    Node *temp = head;
-    head = head->prev;
-    delete(temp);
+    Node *nextEl = head->prev;
+    delete head;
+    head = nextEl;
     return returnValue;
 }
 
