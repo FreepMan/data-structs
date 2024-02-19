@@ -7,14 +7,15 @@ template<typename T>
 class vector
 {
 private:
-    size_t reserve = 4;
+    size_t reserveSize = 4;
     size_t vectorSize = 0;
     T *data;
 public:
     // init
     vector(); // initialization of empty vector
-    vector(size_t); // initialization of empty vector with selected elements
-    vector(size_t, T);
+    vector(size_t); // initialization of empty vector with selected size
+    vector(size_t, T); // initialization of vector with selected size and data
+    ~vector();
     
     // func
     size_t size();
@@ -30,7 +31,9 @@ public:
     size_t end();
     void resize(size_t);
 
-
+    // Operators
+    vector &operator= (const vector& vec);
+    T operator[](size_t);
 };
 
 // initialization of vector
@@ -38,29 +41,34 @@ public:
 // initialization of empty vector
 template<typename T>
 vector<T>::vector(){
-    data = new T[reserve];
+    data = new T[reserveSize];
 }
 
 // initialization of empty vector with selected elements
 template<typename T>
 vector<T>::vector(size_t val){
-    if(reserve < val){
+    if(reserveSize < val){
         resize(val);
     }
-    data = new T[reserve];
-    size = val;
+    data = new T[reserveSize];
+    reserveSize = val;
 }
 
 // initialization of vector with selected ammount of elements and selected data
 template<typename T>
 vector<T>::vector(size_t val, T dat){
-    if(reserve < val){
+    if(reserveSize < val){
         resize(val);
     }
-    data = new T[reserve];
+    data = new T[reserveSize];
     for(size_t i = 0; i != val; i++){
-        push(dat)
+        push(dat);
     }
+}
+
+template<typename T>
+vector<T>::~vector(){
+    free(this->data);
 }
 
 // functions of vector
@@ -105,12 +113,64 @@ bool vector<T>::empty(){
 
 template<typename T>
 vector<T> &vector<T>::push_back(T newData){
-    if(vectorSize == reserve){
-        resize(vectorSize);
+    if(vectorSize == reserveSize){
+        resize(reserveSize + 1);
     }
     data[vectorSize] = newData;
     ++vectorSize;
     return *this;
+}
+
+template<typename T>
+T vector<T>::pop_back(){
+    if(size == 0){
+        throw std::out_of_range("Vector is empty.");
+    }
+    T toReturnData = data[vectorSize - 1];
+    --vectorSize;
+    return toReturnData;
+}
+
+template<typename T>
+size_t vector<T>::capacity(){
+    return reserveSize;
+}
+
+template<typename T>
+void vector<T>::reserve(size_t toReserveSize){
+    if(vectorSize != 0){
+        throw std::out_of_range("Reserve is available only for empty vector");
+    }
+    if(toReserveSize < 4){
+        throw std::out_of_range("Can not reserve less than 4 elements");
+    }
+    delete data;
+    reserveSize = toReserveSize;
+    data = new T[reserveSize];
+}
+
+template<typename T>
+size_t vector<T>::begin(){
+    return 0;
+}
+
+template<typename T>
+size_t vector<T>::end(){
+    size_t plastEl;
+    if(empty()){
+        plastEl = 0;
+    }else{
+        plastEl = vectorSize - 1;
+    }
+    return plastEl;
+}
+
+template<typename T>
+void vector<T>::resize(size_t reserveNoLessThan){
+    size_t newSize = 4;
+    while(newSize <= reserveNoLessThan){
+        newSize *= 2;
+    }
 }
 
 #endif
