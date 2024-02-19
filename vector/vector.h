@@ -32,7 +32,7 @@ public:
     void resize(size_t);
 
     // Operators
-    vector &operator= (const vector& vec);
+    vector &operator= (const vector<T>& vec);
     T operator[](size_t);
 };
 
@@ -171,6 +171,19 @@ void vector<T>::resize(size_t reserveNoLessThan){
     while(newSize <= reserveNoLessThan){
         newSize *= 2;
     }
+    
+}
+
+template<typename T>
+vector<T> &vector<T>::operator=(const vector<T> &vec){
+    if(this->capacity() < vec.vectorSize){
+        this->resize(vec.vectorSize);
+    }
+    this->vectorSize = vec.vectorSize;
+    for(size_t i = 0; i < vec.vectorSize; i++){
+        this->data[i] = vec.data[i];
+    }
+    return *this;
 }
 
 #endif
