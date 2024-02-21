@@ -10,6 +10,7 @@ private:
     size_t reserveSize = 4;
     size_t vectorSize = 0;
     T *data;
+    void resize(size_t);
 public:
     // init
     vector(); // initialization of empty vector
@@ -29,11 +30,10 @@ public:
     void reserve(size_t);
     size_t begin();
     size_t end();
-    void resize(size_t);
 
     // Operators
     vector &operator= (const vector<T>& vec);
-    T operator[](size_t);
+    T &operator[](const size_t);
 };
 
 // initialization of vector
@@ -123,7 +123,7 @@ vector<T> &vector<T>::push_back(T newData){
 
 template<typename T>
 T vector<T>::pop_back(){
-    if(size == 0){
+    if(vectorSize == 0){
         throw std::out_of_range("Vector is empty.");
     }
     T toReturnData = data[vectorSize - 1];
@@ -171,6 +171,17 @@ void vector<T>::resize(size_t reserveNoLessThan){
     while(newSize <= reserveNoLessThan){
         newSize *= 2;
     }
+    reserveSize = newSize;
+    // vector<T> *newVector = new vector<T>(newSize);
+    // *newVector = *this;
+    // delete this->data;
+    // this = newVector;
+    T *newArr = new T[newSize];
+    for(size_t i = 0; i < vectorSize; i++){
+        newArr[i] = data[i];
+    }
+    delete[] data;
+    data = newArr;
     
 }
 
@@ -186,4 +197,8 @@ vector<T> &vector<T>::operator=(const vector<T> &vec){
     return *this;
 }
 
+template<typename T>
+T &vector<T>::operator[] (size_t point){
+    return *(data+point);
+}
 #endif
